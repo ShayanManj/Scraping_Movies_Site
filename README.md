@@ -1,2 +1,2 @@
 # Scraping_Movies_Site
-The movies site I have scraped is the IQ.com. As we want to scrape the top movies of the site, so first of all, we scroll down quite a time
+The movies site I have scraped is the IQ.com. As we want to scrape the top movies of the site, so first of all, we scroll down quite a times. After the scrolling function, the links of all the movies are passed in a variable. Then this variable is run through a for loop, and each link opens one by one and we extract details like IMDB Rating, Movie Name and URL of Movie. All of these results are stored in an Excel File.
