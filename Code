@@ -1,0 +1,83 @@
+
+import bs4
+import time
+from urllib.request import urlopen as uReq
+from bs4 import BeautifulSoup 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium_move_cursor.MouseActions import move_to_element_chrome
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from datetime import date
+import numpy as np
+import time
+import pandas as pd         #to save CSV file
+dte=date.today()
+ratings=[]
+names=[]
+link=[]
+options = webdriver.ChromeOptions()
+
+
+options.add_argument("--headless")
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-sh-usage')
+
+driver=webdriver.Chrome(executable_path="C:\webdriver\\chromedriver.exe", options=options)
+
+
+time.sleep(7)
+
+
+driver.get('https://www.iq.com/film-library?chnid=2')
+driver.maximize_window()
+for i in range(1,30):
+    
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(4)
+    content=driver.page_source
+    soup = BeautifulSoup(content,'html.parser')
+    name=soup.findAll('div',{'class':'text-box'})
+    links=soup.findAll('div',{'class':'style__PicTextUnitWrapper-sc-1m6a06z-0 fkUSTe normal img-type-1 '})
+    for z in name:
+        print(z.text)
+    for x in links:
+        print(x)
+    print(len(name))
+
+no_of_dr=len(name)
+h=1
+while h<=no_of_dr:
+    
+    y=driver.find_element(By.XPATH,'//*[@id="__next"]/div/div/div[3]/div[2]/div/div[{}]/div/a'.format(h))
+    l_name=y.get_attribute('href')
+    link.append(l_name)               
+    h=h+1                    
+
+for g in link:
+    driver.get(g)
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    content=driver.page_source
+    soup = BeautifulSoup(content,'html.parser')
+    
+    time.sleep(1)
+    rat=soup.find('span',{'class':'score-info-number'})
+    ratings.append(rat.text)
+    
+        
+        
+
+     
+     
+        
+        
+        
+        
+        
+        
